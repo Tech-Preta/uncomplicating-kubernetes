@@ -1,0 +1,22 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: emptydir-pod
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx:latest
+      volumeMounts:
+        - name: shared-data
+          mountPath: /data
+
+    - name: busybox-container
+      image: busybox:latest
+      command: ["sh", "-c", "echo 'Hello, EmptyDir!' > /data/index.html"]
+      volumeMounts:
+        - name: shared-data
+          mountPath: /data
+
+  volumes:
+    - name: shared-data
+      emptyDir: {}

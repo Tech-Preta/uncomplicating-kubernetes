@@ -1,0 +1,37 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          ports:
+            - containerPort: 80
+          resources:
+            limits:
+              cpu: "0.5"
+              memory: "512Mi"
+            requests:
+              cpu: "0.25"
+              memory: "256Mi"
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -c
+                - curl -f http://localhost:80
+            initialDelaySeconds: 15 # Tempo inicial de espera antes da primeira verificação
+            periodSeconds: 10 # Intervalo entre as verificações
+            timeoutSeconds: 5 # Tempo limite de espera da sonda
+            failureThreshold: 3 # Número de falhas consecutivas para considerar o pod como não pronto
+            successThreshold: 1 # Número de sucessos consecutivos para considerar o pod como pronto

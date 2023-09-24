@@ -1,0 +1,35 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3 # Especifique o número desejado de réplicas
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx-container
+          image: nginx:latest
+          resources:
+            limits:
+              cpu: "0.5" # Limite máximo de uso de CPU
+              memory: "512Mi" # Limite máximo de uso de memória
+          ports:
+            - containerPort: 80
+          readinessProbe:
+            httpGet:
+              path: / # Rota que a sonda de prontidão verificará
+              port: 80
+            initialDelaySeconds: 5 # Atraso inicial em segundos
+            periodSeconds: 10 # Frequência de verificação em segundos
+          startupProbe: # Sonda de inicialização
+            httpGet:
+              path: / # Rota que a sonda de inicialização verificará
+              port: 80
+            failureThreshold: 30 # Número máximo de falhas antes de marcar a inicialização como falha
+            periodSeconds: 10 # Frequência de verificação em segundos

@@ -1,0 +1,24 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-deployment
+spec:
+  replicas: 3 # Número desejado de réplicas
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+        - name: nginx
+          image: nginx:latest
+          resources:
+            limits:
+              memory: "256Mi" # Limite de memória por contêiner
+              cpu: "500m" # Limite de CPU por contêiner
+            requests:
+              memory: "128Mi" # Requisição de memória por contêiner
+              cpu: "250m" # Requisição de CPU por contêiner

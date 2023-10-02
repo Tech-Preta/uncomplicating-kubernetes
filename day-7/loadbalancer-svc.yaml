@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-external-service
+spec:
+  type: LoadBalancer
+  externalName: example.com # Substitua pelo nome de domínio ou endereço IP do seu serviço externo
+  ports:
+    - port: 80 # Porta que o serviço LoadBalancer irá expor externamente
+  selector:
+    app: my-app # Substitua pelo rótulo apropriado para o seu serviço
+

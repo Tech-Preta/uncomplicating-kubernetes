@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: meu-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  storageClassName: meu-storageclass
+  resources:
+    requests:
+      storage: 1Gi
+  selector:
+    matchLabels:
+      app: minha-aplicacao
